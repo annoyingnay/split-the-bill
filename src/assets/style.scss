@@ -1,0 +1,79 @@
+.people-page{
+    width: 600px;
+}
+
+.app-input{
+    margin: 20px 0px 0px 0px;
+    background-color: rgb(100, 88, 117);
+    color:aliceblue;
+    border-radius: 20px;
+    border-color: rgb(100, 88, 117);
+}
+
+.app-input:focus, .app-input:hover{
+    border-color: aliceblue
+}
+
+.app-button{
+    margin: 10px 10px 10px 0px;
+    background-color: rgb(100, 88, 117);
+    color: aliceblue;
+    border-color: rgb(100, 88, 117);
+}
+
+.app-button:hover{
+    background-color: rgb(100, 88, 117);
+    /* color: rgb(78, 69, 92); */
+    color: rgb(126, 111, 150);
+    border-color: rgb(100, 88, 117);
+}
+.app-button:disabled{
+    background-color: rgb(100, 88, 117);
+    color: rgb(78, 69, 92);
+    border-color: rgb(100, 88, 117);
+}
+
+.app-button:disabled:hover{
+    background-color: rgb(100, 88, 117);
+    color: rgb(78, 69, 92);
+    border-color: rgb(100, 88, 117);
+}
+
+.delete-button{
+    background-color: rgb(216, 35, 80);
+    border-color: rgb(216, 35, 80);
+
+}
+
+.delete-button:hover{
+    background-color: rgb(187, 30, 69);
+    border-color: rgb(216, 35, 80);
+}
+
+
+
+.people{
+    margin: 10px 0px 10px 0px;
+    padding: 0px 5px 0px 15px;
+    height: 40px;
+    font-size: medium;
+    color: aliceblue;
+    background-color: rgb(100, 88, 117);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.food{
+    margin: 10px 0px 10px 0px;
+    padding: 0px 5px 0px 15px;
+    height: 40px;
+    font-size: medium;
+    color: aliceblue;
+    background-color: rgb(100, 88, 117);
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
