@@ -75,6 +75,7 @@ const store = useAppStore();
 
 const name = ref('');
 
+
 function onClickAddPerson(){
     if(name.value){
         store.addPerson(name.value);

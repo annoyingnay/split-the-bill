@@ -193,7 +193,6 @@ export const useAppStore = defineStore({
 
           }
         }
-        //console.log(this.reverseResult);
       }
     }
   })

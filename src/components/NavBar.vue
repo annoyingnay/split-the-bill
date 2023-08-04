@@ -4,14 +4,14 @@
     height="50"  
   >
     <div class="toolbar-item">
-      <router-link to="/" active-class="active">
+      <router-link to="/" active-class="active" >
         <v-icon icon="mdi-account-multiple" style="font-size: 40px;"></v-icon>
         Кто кушал
       </router-link>
     </div>
     
     <div class="toobar-item">
-      <router-link to="/food" active-class="active" >
+      <router-link :to="isFoodDisabled ? '' : '/food'" active-class="active" @click="onClickShowModal()">
         <v-icon icon="mdi-food" style="font-size: 35px;"></v-icon>
         Что кушал
       </router-link>
@@ -27,7 +27,14 @@
 </template>
 
 <script setup>
+import {ref} from 'vue'
 
+const isFoodDisabled = ref(true);
+const isPayDisabled = ref(true);
+
+function onClickShowModal(){
+  console.log("oops! you can't do that yet) ")
+}
 
 </script>
 

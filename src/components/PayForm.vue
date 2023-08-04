@@ -33,7 +33,7 @@
             <p>{{ model }}</p>
             <p>{{ foodEaten }}</p>
 
-            <!-- <v-sheet
+            <v-sheet
                 class="mx-auto"
                 elevation="8"
                 max-width="800"
@@ -75,7 +75,7 @@
                     </v-card>
                 </v-slide-group-item>
                 </v-slide-group>
-            </v-sheet> -->
+            </v-sheet>
 
             <v-container fluid> 
                 <v-checkbox
