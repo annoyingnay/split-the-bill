@@ -1,21 +1,18 @@
 <template>
     <div>
-        <a-button 
+        <v-btn variant="tonal"
+            style="color:aliceblue; background-color: rgb(100, 88, 117);"
+            block rounded="xl"
             class="app-button" 
             @click="onClickAddBillPosition"
-            shape="round"
         >
-            add bill
-        </a-button>
+            добавить чек
+        </v-btn>
 
-        <a-button 
-            class="app-button" 
-            shape="round"
-        >
-            result
-        </a-button>
+        <result-modal>
 
-        <!-- <button @click="showResult">result</button> -->
+        </result-modal>
+
 
         <br>
 
@@ -38,6 +35,7 @@
 import { ref } from 'vue';
 import { useAppStore } from '../store/index';
 import PayForm from './PayForm.vue'
+import ResultModal from './ResultModal.vue'
 
 const store = useAppStore();
 
@@ -45,7 +43,6 @@ const options = store.people;
 const pesronPays = ref('Name')
 const foodEaten = ref([])
 const peopleEat = ref([])
-
 
 function onChangePersonPays(billId){
     store.changeName({

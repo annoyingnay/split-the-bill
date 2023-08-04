@@ -53,10 +53,6 @@ function onClickSelectOption(option){
     emit('selected', option);
 }
 
-// function closeSelect(){
-//     isOpen.value = false;
-// }
-
 </script>
 
 <style>
@@ -96,6 +92,7 @@ function onClickSelectOption(option){
     background-color: rgb(100, 88, 117);
     border-radius: 10px;
     color: aliceblue;
+    z-index: 2;
 }
 
 .options p{
@@ -103,8 +100,6 @@ function onClickSelectOption(option){
 }
 
 .options p:hover{
-    /* background-color: #e7e7e7;
-    color: black; */
     color: rgb(126, 111, 150);
 }
 </style>

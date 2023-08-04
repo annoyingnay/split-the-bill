@@ -1,45 +1,56 @@
 <template>
-    <a-menu 
-      v-model:selectedKeys="current" 
-      mode="horizontal" 
-      style="font-size: 25px; background-color: rgb(99, 87, 117); justify-content: center;"
-      >
+  <v-toolbar 
+    :elevation="5" 
+    height="50"  
+  >
+    <div class="toolbar-item">
+      <router-link to="/" active-class="active">
+        <v-icon icon="mdi-account-multiple" style="font-size: 40px;"></v-icon>
+        Кто кушал
+      </router-link>
+    </div>
+    
+    <div class="toobar-item">
+      <router-link to="/food" active-class="active" >
+        <v-icon icon="mdi-food" style="font-size: 35px;"></v-icon>
+        Что кушал
+      </router-link>
+    </div>
 
-      <a-menu-item key="people">
-        <router-link to="/" >
-          <team-outlined style="font-size: 25px;"/>
-          Кто кушал
-        </router-link>
-      </a-menu-item>
+    <div class="toolbar-item">
+      <router-link to="/pay" active-class="active" >
+        <v-icon icon="mdi-cash" style="font-size: 40px;"></v-icon>
+        Кто за что платил
+      </router-link>
+    </div>
+  </v-toolbar>
+</template>
 
-      <a-menu-item key="food" >
-        <router-link to="/food" >
+<script setup>
 
-              <coffee-outlined style="font-size: 25px;"/>
-              Что кушал
-        </router-link >
-      </a-menu-item>
 
-      <a-menu-item key="pay">
-        <router-link to="/pay" >
-            <dollar-circle-outlined style="font-size: 25px;"/>
-              Кто за что платил
-        </router-link >
-      </a-menu-item>
+</script>
 
-      <a-menu-item key="result">
-        <router-link to="/result" >
-            <question-outlined style="font-size: 25px;"/>
-            Кто кому что должен
-        </router-link >
-      </a-menu-item>
+<style lang="scss">
+.v-toolbar__content{
+  background-color: rgb(99, 87, 117);
+  justify-content: center;
+}
 
-    </a-menu>
-  </template>
+.toolbar-item{
+  margin: 0px 20px 0px 20px;
+}
 
-  <script setup>
-  import { defineComponent, ref } from 'vue';
-  import { TeamOutlined, QuestionOutlined, CoffeeOutlined, DollarCircleOutlined} from '@ant-design/icons-vue';
+a {
+  color: rgb(57, 50, 68);
+  font-size: 25px;
+}
 
-  const current = ref(['people']);
-  </script>
+a:hover {
+  color: rgb(77, 67, 92);
+}
+
+.active {
+  color: aliceblue;
+}
+</style>

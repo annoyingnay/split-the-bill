@@ -13,9 +13,11 @@
     "ant-design-vue": "^3.2.20",
     "pinia": "^2.1.4",
     "vue": "^3.2.47",
-    "vue-router": "^4.2.2"
+    "vue-router": "^4.2.2",
+    "vuetify": "^3.3.10"
   },
   "devDependencies": {
+    "@mdi/font": "^7.2.96",
     "@vitejs/plugin-vue": "^4.1.0",
     "sass": "^1.63.6",
     "vite": "^4.3.9"
