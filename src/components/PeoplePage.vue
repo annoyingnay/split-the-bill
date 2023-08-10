@@ -4,7 +4,7 @@
         <div class="my-input">
             <v-text-field 
             v-model="name" 
-            label="Name"
+            placeholder="Вася"
             variant="underlined"
             ref="input0"
             @keyup.enter="onClickAddPerson()"
@@ -33,7 +33,7 @@
         >
 
         <template v-slot:prepend>
-            <v-icon icon="mdi-plus-circle-outline"></v-icon>
+            <v-icon icon="mdi-plus"></v-icon>
         </template>
             
             Добавить человека   
@@ -67,7 +67,6 @@
 </template>
 
 <script setup>
-import {PlusCircleOutlined, CloseOutlined} from '@ant-design/icons-vue';
 import { ref, onMounted } from 'vue';
 import { useAppStore } from '../store/index';
 

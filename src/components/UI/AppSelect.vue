@@ -7,9 +7,8 @@
         >
             <p>
                 {{ selected }}
-                <caret-down-outlined />
+                <v-icon icon="mdi-chevron-down"></v-icon>
             </p>
-            
         </div>
 
         <div 
@@ -29,7 +28,6 @@
 </template>
 
 <script setup>
-import {CaretDownOutlined} from '@ant-design/icons-vue';
 import { ref } from 'vue'
 
 const isOpen = ref(false);

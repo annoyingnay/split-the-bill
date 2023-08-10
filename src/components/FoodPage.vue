@@ -4,7 +4,7 @@
         <div style="color: aliceblue;">
             <v-text-field 
             v-model="title" 
-            label="Пиво"
+            placeholder="Пиво"
             variant="underlined"
             @keydown.enter="focusNext" 
             ref="input0"
@@ -12,9 +12,10 @@
             </v-text-field>
             <v-text-field 
             v-model="price" 
-            label="500"
+            placeholder="500"
             variant="underlined"
             @keyup.enter="onClickAddPosition()"
+            @keypress="NumbersOnly"
             ref="input1"
             >
             </v-text-field>
@@ -30,7 +31,7 @@
             style="color:aliceblue; background-color: rgb(100, 88, 117); text-transform: lowercase;"
         >
             <template v-slot:prepend>
-                <plus-circle-outlined/> 
+                <v-icon icon="mdi-plus"></v-icon>
             </template>
             
             Добавить позицию из счета   
@@ -65,7 +66,6 @@
 </template>
 
 <script setup>
-import {PlusCircleOutlined, CloseOutlined} from '@ant-design/icons-vue';
 import { ref, onMounted } from 'vue';
 import { useAppStore } from '../store/index';
 
@@ -103,6 +103,15 @@ onMounted(() => {
     input0.value.focus()
 });
 
+function NumbersOnly(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+    evt.preventDefault();;
+    } else {
+    return true;
+    }
+}
 
 </script>
 

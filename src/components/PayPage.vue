@@ -9,10 +9,11 @@
             добавить чек
         </v-btn>
 
-        <result-modal>
+        <result-modal
+            :is-disabled="isDisabled"    
+        >
 
         </result-modal>
-
 
         <br>
 
@@ -32,49 +33,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useAppStore } from '../store/index';
 import PayForm from './PayForm.vue'
 import ResultModal from './ResultModal.vue'
 
 const store = useAppStore();
-
-const options = store.people;
-const pesronPays = ref('Name')
-const foodEaten = ref([])
-const peopleEat = ref([])
-
-function onChangePersonPays(billId){
-    store.changeName({
-        id: billId,
-        nameId: pesronPays.value
-    })
-    console.log('person id: ' + pesronPays.value)
-}
-
-function onChangeFood(billId){
-    store.changeFood({
-        id: billId,
-        food: foodEaten.value
-    })
-    console.log('eaten food id: ' + foodEaten.value)
-}
-
-function onChangePeopleEat(billId){
-    store.changePeople({
-        id: billId,
-        people: peopleEat.value
-    })
-    console.log('people ate id: ' + peopleEat.value)
-}
+const isDisabled = ref(true);
 
 function onClickAddBillPosition(){
     store.addBillPosition();
 }
 
-function showResult(){
-    store.calcResult();
-}
+watch(store.whoPaysWhat, () => { //следим все ли данные в массиве заполнены
+    let count = 0;
+    for(let i = 0; i < store.whoPaysWhat.length; i++){
+        if(!store.whoPaysWhat[i].name || !store.whoPaysWhat[i].people.length || !store.whoPaysWhat[i].food.length){
+            isDisabled.value = true;
+            count++;
+        }
+    }
+
+    if(count == 0) isDisabled.value = false;
+})
 
 </script>
 

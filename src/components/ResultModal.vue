@@ -10,6 +10,7 @@
             block rounded="xl"
             v-bind="props"
             @click="store.calcResult()"
+            :disabled="isDisabled"
           >
             кто кому что должен
           </v-btn>
@@ -83,9 +84,15 @@
   const dialog = ref(false);
   const store = useAppStore();
 
-  const resultReverse = ref([]);
+  const btn = ref('whom')
 
-  const btn = ref('who')
+  const props = defineProps({
+    isDisabled: {
+        type: Boolean,
+        required: true,
+        default: true
+    }
+})
 
   </script>
 

@@ -30,65 +30,39 @@
 
         <div class="food-eaten">
 
-            <p>{{ model }}</p>
-            <p>{{ foodEaten }}</p>
+            <br>
 
             <v-sheet
                 class="mx-auto"
-                elevation="8"
-                max-width="800"
+                max-width="600"
             >
                 <v-slide-group
-                v-model="model"
-                class="pa-4 slider"
-                selected-class="bg-primary"
+                v-model="foodEaten"
+                show-arrows
                 multiple
                 mandatory
-                show-arrows
+                class="slider"
                 >
                 <v-slide-group-item
                     v-for="position in store.food"
                     :key="position.id" 
                     :value="position.id"
-                    v-slot="{ isSelected, toggle, selectedClass }"
+                    v-slot="{ isSelected, toggle }"
                 >
-                    <v-card
-                    color="grey-lighten-1"
-                    :class="['ma-4', selectedClass]"
-                    height="120"
-                    width="120"
+                    <v-btn
+                    class="ma-2"
+                    rounded
+
+                    :style="isSelected ? 'color:aliceblue; background-color: rgb(79, 69, 94); box-shadow: none' : 'color:aliceblue; background-color: rgb(100, 88, 117); box-shadow: none'"
                     @click="toggle"
                     >
-                    <div class="d-flex fill-height align-center justify-center">
-                        <v-scale-transition>
-                        <v-icon
-                            v-if="isSelected"
-                            color="white"
-                            size="48"
-                            icon="mdi-close-circle-outline"
-                        ></v-icon>
-                        </v-scale-transition>
-                    </div> 
-                    <v-card-text>
-                        {{ position.title }}
-                    </v-card-text>
-                    </v-card>
+                    {{ position.title +" "+ position.price}}
+                    </v-btn>
                 </v-slide-group-item>
                 </v-slide-group>
             </v-sheet>
 
-            <v-container fluid> 
-                <v-checkbox
-                    v-for="position in store.food" 
-                    :key="position.id" 
-                    :value="position.id"
-                    v-model="foodEaten"
-                    @change="onChangeFood(billId)"
-                    :label="position.title + ' ' + position.price"
-                > 
-                </v-checkbox> 
-            </v-container>
-
+            <br>
         </div>  
 
         <div class="title-block">
@@ -97,28 +71,49 @@
 
         <div class="people-eat">
 
-            <v-checkbox
+            <br>
+            <v-sheet
+                class="mx-auto"
+                max-width="600"
+            >
+                <v-slide-group
+                v-model="peopleEat"
+                show-arrows
+                multiple
+                mandatory
+                class="slider"
+                >
+                <v-slide-group-item
                 v-for="person in store.people" 
                 :key="person.id" 
                 :value="person.id"
-                v-model="peopleEat"
-                :label="person.name"
-                @change="onChangePeopleEat(billId)"
-            > 
-             </v-checkbox>
+                    v-slot="{ isSelected, toggle }"
+                >
+                    <v-btn
+                    class="ma-2"
+                    rounded
+                    :style="isSelected ? 'color:aliceblue; background-color: rgb(79, 69, 94); box-shadow: none' : 'color:aliceblue; background-color: rgb(100, 88, 117); box-shadow: none'"
+                    @click="toggle"
+                    >
+                    {{ person.name }}
+                    </v-btn>
+                </v-slide-group-item>
+                </v-slide-group>
+            </v-sheet>
+            <br>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useAppStore } from '../store/index';
 import AppSelect from './UI/AppSelect.vue'
 
 const store = useAppStore();
 
 //const personPays = ref('Name')
-const selected = ref('Name') //вынести в стор
+const selected = ref('Имя') //вынести в стор
 const foodEaten = ref([])
 const peopleEat = ref([])
 
@@ -131,63 +126,37 @@ const props = defineProps({
     }
 })
 
-function people(){
-    let arr = [];
-    for(let i = 0; i < store.people.length; i++){
-        arr.push(store.people[i].name)
-    }
-    return arr;
-}
-
-function showResult(){
-    store.calcResult();
-}
-
 function onClickDeleteBillPosition(billId){
     store.deleteBillPosition(billId)
 }
 
-// function onChangePersonPays(billId){
-//     store.changeName({
-//         id: billId,
-//         nameId: pesronPays.value
-//     })
-//     //console.log('person id: ' + pesronPays.value)
-// }
-
 function onChangePersonPays(option){
-    //personPays.value = option.name
     selected.value = option.name
-    console.log(option)
-    console.log(props.billId)
     store.changeName({
         id: props.billId,
         nameId: option.id
     })
 }
 
-function onChangeFood(billId){
+watch(foodEaten, () => {
     store.changeFood({
-        id: billId,
+        id: props.billId,
         food: foodEaten.value
     })
-    //console.log('eaten food id: ' + foodEaten.value)
-}
+})
 
-function onChangePeopleEat(billId){
+watch(peopleEat, () => {
     store.changePeople({
-        id: billId,
+        id: props.billId,
         people: peopleEat.value
     })
-    //console.log('people ate id: ' + peopleEat.value)
-}
+})
+
 </script>
 
 <style lang="scss">
 
 @import '../assets/style.scss';
-
-
 
 .who-pays{
     background-color: rgb(100, 88, 117);
@@ -206,7 +175,7 @@ function onChangePeopleEat(billId){
 .title-block-text{
     font-size: 20px;
     margin: 0px 0px 0px 10px;
-    color: rgb(57, 50, 68);
+    // color: rgb(57, 50, 68);
 }
 
 .food-eaten{
