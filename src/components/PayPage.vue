@@ -1,10 +1,11 @@
 <template>
     <div>
-        <v-btn variant="tonal"
-            style="color:aliceblue; background-color: rgb(100, 88, 117);"
-            block rounded="xl"
-            class="app-button" 
+
+        <v-btn 
             @click="onClickAddBillPosition"
+            class="app-button" 
+            variant="tonal"
+            block rounded="xl"
         >
             добавить чек
         </v-btn>
@@ -27,7 +28,7 @@
 
         
         <br>
-        <pre> {{ store.whoPaysWhat }} </pre>
+        <!-- <pre> {{ store.whoPaysWhat }} </pre> -->
 
     </div>
 </template>
@@ -41,11 +42,11 @@ import ResultModal from './ResultModal.vue'
 const store = useAppStore();
 const isDisabled = ref(true);
 
-function onClickAddBillPosition(){
+function onClickAddBillPosition(){ //добавляем еще один чек
     store.addBillPosition();
 }
 
-watch(store.whoPaysWhat, () => { //следим все ли данные в массиве заполнены
+watch(store.whoPaysWhat, () => { //следим все ли данные в массиве заполнены и блокируем кнопку
     let count = 0;
     for(let i = 0; i < store.whoPaysWhat.length; i++){
         if(!store.whoPaysWhat[i].name || !store.whoPaysWhat[i].people.length || !store.whoPaysWhat[i].food.length){

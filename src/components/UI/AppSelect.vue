@@ -5,7 +5,7 @@
             @click="isOpen = !isOpen"
             class="title"
         >
-            <p>
+            <p class="text-button">
                 {{ selected }}
                 <v-icon icon="mdi-chevron-down"></v-icon>
             </p>
@@ -19,6 +19,7 @@
                 v-for="option in options"
                 :key="option.id"
                 @click="onClickSelectOption(option)"
+                class="text-button"
             >   
                 {{ option.name }}
             </p>
@@ -53,25 +54,23 @@ function onClickSelectOption(option){
 
 </script>
 
-<style>
+<style lang="scss">
 
 .app-select{
     position: relative;
-    width: 200px;
+    width: 600px;
     cursor: pointer;
 }
-
 
 .title{
     border: solid 1px rgb(100, 88, 117);
     border-radius: 20px;
     background-color: rgb(100, 88, 117);
     color: aliceblue;   
-    
 }
 
 .title:hover{
-    border-color: aliceblue;
+    background-color: rgb(114, 103, 131);
 }
 
 .title p{
@@ -82,13 +81,12 @@ function onClickSelectOption(option){
 }
 
 .options{
-    border: solid 1px;
     position: absolute;
-    top: 50px;
+    top: 65px;
     right: 0;
     width: 100%;
-    background-color: rgb(100, 88, 117);
-    border-radius: 10px;
+    background-color: rgb(114, 103, 131);
+    border-radius: 20px;
     color: aliceblue;
     z-index: 2;
 }
@@ -98,6 +96,6 @@ function onClickSelectOption(option){
 }
 
 .options p:hover{
-    color: rgb(126, 111, 150);
+    color: rgb(79, 69, 94);
 }
 </style>

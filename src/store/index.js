@@ -18,18 +18,12 @@ export const useAppStore = defineStore({
       reverseResult: []
     }),
     getters: {
-      getBillIdByIndex: (state) => { // находим индекс фильма в списке по его id
+      getBillIdByIndex: (state) => { //айдишник по индексу
         return (billInd) => state.whoPaysWhat[billInd].id;
-      },
-      getBillIndexbyId: (state) => {
-        return (billId) => state.whoPaysWhat.map(bill => bill.id).indexOf(billId);
-      },
-      // getPersonNameById: (state) => {
-      //   return (personId) => state.people.map(item => item.id == personId ? item.name : -1);
-      // }
+      }
     }, 
     actions: {
-      addPerson(name){
+      addPerson(name){ //пушим нового человека
         this.people.push(
             {
               id: this.idPerson,
@@ -38,10 +32,10 @@ export const useAppStore = defineStore({
           );
         this.idPerson++;
       },
-      deletePerson(ind){
+      deletePerson(ind){ //удаляем человека
         this.people.splice(ind, 1);
       },
-      addPosition(position){
+      addPosition(position){ //пушим новую позицию
         this.food.push(
           {
             id: this.idFood,
@@ -51,10 +45,10 @@ export const useAppStore = defineStore({
 
         this.idFood++;
       },
-      deletePosition(ind){
+      deletePosition(ind){ //удаляем позицию
         this.food.splice(ind, 1);
       },
-      addBillPosition(){
+      addBillPosition(){ //добавляем чек
         this.whoPaysWhat.push({
           id: this.idBill,
           name: '',
@@ -63,38 +57,36 @@ export const useAppStore = defineStore({
         });
         this.idBill++;
       },
-      deleteBillPosition(id){
+      deleteBillPosition(id){ //удаляем чек
         const ind = this.whoPaysWhat.findIndex((item) => item.id === id);
         this.whoPaysWhat.splice(ind, 1);
       },
-      changeName(data){
-        
+      changeName(data){ //меняем имя плательщика
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].name = data.nameId;
         }
       },
-      changeFood(data){
+      changeFood(data){ //меняем список продуктов
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].food = data.food;
         }
       },
-      changePeople(data){
+      changePeople(data){ //меняем людей, за которых платили
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].people = data.people;
         }
       },
-      getPersonNameById(personId){
+      getPersonNameById(personId){ //получаем имя плательщика по айди
         const personInd = this.people.findIndex((item) => item.id === personId);
         return this.people[personInd].name;
-        //return this.people.map(item => item.id == personId ? item.name : -1);
       },
-      calcResult(){
+      calcResult(){ //считаем кому кто сколько должен 
         this.result = [];
         
         for(let i = 0; i < this.whoPaysWhat.length; i++){ //бегаем по массиву счета
@@ -123,52 +115,26 @@ export const useAppStore = defineStore({
             indName = this.result.findIndex(item => item.name == this.whoPaysWhat[i].name);
           }
 
-          this.whoPaysWhat[i].people.forEach(person => {
+          this.whoPaysWhat[i].people.forEach(person => { //проверяем не платил ли этот человек сам за себя, если да, то не считаем его в должники самому себе
             if(this.result[indName].name !== person){
               const indNameDebt = this.result[indName].debt.findIndex(item => item.person == person);
+              //проверяем не должен ли уже человек плательщику какую-то сумму
+              //если должен, то суммируем с тем, что он ему должен был
               const duty = indNameDebt !== -1 ? this.result[indName].debt[indNameDebt].duty : 0;
               result += duty;
 
               if(indNameDebt !== -1) this.result[indName].debt[indNameDebt].duty = result;
-              else this.result[indName].debt.push({
+              else this.result[indName].debt.push({ //если не должен, то просто пушим его и его долг
                   person,
                   duty: result
               });
 
             }
           })
-
-          // for(let j = 0; j < (this.whoPaysWhat[i].people).length; j++){
-
-          //   if(this.result[indName].name !== this.whoPaysWhat[i].people[j]) //проверяем не платил ли этот человек сам за себя, если да, то не считаем его в должники самому себе
-          //   {
-
-          //     let indNameDebt = this.result[indName].debt.findIndex(item => item.person == this.whoPaysWhat[i].people[j]) 
-          //     //проверяем не должен ли уже человек плательщику какую-то сумму
-          //     //console.log(indNameDebt)
-          //     if(indNameDebt != -1){
-          //       result +=  this.result[indName].debt[indNameDebt].duty; //если должен, то суммируем с тем, что он ему должен был
-
-          //       this.result[indName].debt[indNameDebt].duty = result
-
-          //     }
-          //     else{
-          //       this.result[indName].debt.push( //если не должен, то просто пушим его и его долг
-          //         {
-          //           person: this.whoPaysWhat[i].people[j],
-          //           duty: result
-          //         }
-          //       )
-          //     }
-          //   }
-          // }
-
-          //console.log(this.result)
-
           this.resultReverse();
         }
       },
-      resultReverse(){
+      resultReverse(){ //переписываем массив результата, чтоб узнать кто кому сколько должен
         this.reverseResult = [];
         for(let r = 0; r < this.result.length; r++){ // бегаем по массиву
           for(let d = 0; d < (this.result[r].debt).length; d++){ //хватаем всех должников

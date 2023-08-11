@@ -1,34 +1,34 @@
 <template>
     <div class="people-page">
 
-        <div style="color: aliceblue;">
-            <v-text-field 
+        <v-text-field 
             v-model="title" 
-            placeholder="Пиво"
-            variant="underlined"
             @keydown.enter="focusNext" 
             ref="input0"
-            >
-            </v-text-field>
-            <v-text-field 
-            v-model="price" 
-            placeholder="500"
+            class="app-input"
+            placeholder="Пиво"
             variant="underlined"
+        >
+        </v-text-field>
+        <v-text-field 
+            v-model="price" 
             @keyup.enter="onClickAddPosition()"
             @keypress="NumbersOnly"
             ref="input1"
-            >
-            </v-text-field>
-        </div>
+            class="app-input"
+            placeholder="500"
+            variant="underlined"
+        >
+        </v-text-field>
 
 
         <v-btn
             @click="onClickAddPosition()"
             :disabled="!title || !price"
+            class="app-button"
             variant="tonal"
             block
             rounded="xl" 
-            style="color:aliceblue; background-color: rgb(100, 88, 117); text-transform: lowercase;"
         >
             <template v-slot:prepend>
                 <v-icon icon="mdi-plus"></v-icon>
@@ -42,7 +42,7 @@
         <div 
             v-for="(position, i) in store.food" 
             :key="i"
-            class="food"
+            class="position"
         >
             <div>
                 {{ position.title }}
@@ -52,15 +52,14 @@
 
             <v-btn 
                 @click="onClickDeletePosition(i)"
+                class="delete-button"
                 variant="text" 
                 size="small" 
                 rounded="xl" 
-                style="background-color: rgb(216, 35, 80); color: aliceblue;">
+            >
                 <v-icon icon="mdi-close"></v-icon>
             </v-btn>
         </div>
-
-        {{ store.food }}
 
     </div>
 </template>
@@ -74,7 +73,7 @@ const title = ref('');
 const price = ref('');
 
 
-function onClickAddPosition(){
+function onClickAddPosition(){ //добавление человека, смещение фокуса на инпут
     if(title.value && price.value){
         store.addPosition({
         title: title.value,
@@ -87,29 +86,29 @@ function onClickAddPosition(){
     }    
 }
 
-function onClickDeletePosition(ind){
+function onClickDeletePosition(ind){ //удаление человека по индексу
     store.deletePosition(ind);
 }
 
 const input0 = ref(null);
 const input1 = ref(null);
 
-function focusNext(event) {
+function focusNext(event) { //фокус на следующем инпуте после нажатия энтер
     input1.value.focus()
 };
 
-
-onMounted(() => {
+onMounted(() => { //фокусировка на первом инпуте
     input0.value.focus()
 });
 
-function NumbersOnly(evt) {
+function NumbersOnly(evt) { //вводим только числа
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-    evt.preventDefault();;
-    } else {
-    return true;
+        evt.preventDefault();;
+    } 
+    else {
+        return true;
     }
 }
 
