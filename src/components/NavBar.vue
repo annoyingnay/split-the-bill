@@ -4,23 +4,22 @@
     height="50"  
   >
     <div class="toolbar-item">
-
       <router-link 
         to="/" 
         active-class="active" 
+        class="app-link"
       >
         <v-icon icon="mdi-account-multiple" style="font-size: 40px;"></v-icon>
         Кто кушал
       </router-link>
-
     </div>
     
     <div class="toobar-item">
-
       <router-link 
-        v-if="!isFoodDisabled" 
+        v-if="isPeopleFilled" 
         to="/food" 
         active-class="active"
+        class="app-link"
       >
         <v-icon icon="mdi-food" style="font-size: 35px;"></v-icon>
         Что кушал
@@ -39,15 +38,14 @@
           Добавьте минимум двух людей
         </v-tooltip>
       </span>
-
     </div>
 
     <div class="toolbar-item">
-
       <router-link 
-        v-if="!isPayDisabled" 
+        v-if="isFoodFilled && isPeopleFilled" 
         to="/pay" 
         active-class="active" 
+        class="app-link"
       >
         <v-icon icon="mdi-cash" style="font-size: 40px;"></v-icon>
         Кто за что платил
@@ -66,9 +64,7 @@
           Добавьте минимум двух людей и две позиции
         </v-tooltip>
       </span>
-
     </div>
-
   </v-toolbar>
 </template>
 
@@ -78,34 +74,22 @@ import { useAppStore } from '../store/index';
 
 const store = useAppStore();
 
-const isFoodDisabled = ref(true);
-const isPayDisabled = ref(true);
+const isPeopleFilled = ref(false);
+const isFoodFilled = ref(false);
 
 watch(store.people, () => { //смотрим, добавлены ли были два человека, если нет то блокируем роутер линк
-  if(store.people.length >= 2){
-    isFoodDisabled.value = false;
-    if(store.food.length >= 2) isPayDisabled.value = false;
-  }
-  else {
-    isFoodDisabled.value = true;
-    isPayDisabled.value = true
-  }
+  isPeopleFilled.value = store.people.length >= 2;
 })
 
 watch(store.food, () => { //смотрим, добавлены ли были две позиции по еде, если нет то блокируем роутер линк
-  if(store.food.length >= 2){
-    isPayDisabled.value = false;
-  }
-  else{
-    isPayDisabled.value = true;
-  }
+  isFoodFilled.value = store.food.length >= 2;
 })
 
 </script>
 
 <style lang="scss">
 
-.v-toolbar__content{
+.v-toolbar__content {
   background-color: rgb(99, 87, 117);
   justify-content: center;
 }
@@ -114,17 +98,17 @@ watch(store.food, () => { //смотрим, добавлены ли были д�
   margin: 0px 20px 0px 20px;
 }
 
-a {
+.toolbar-item .active {
+  color: aliceblue;
+}
+
+.app-link{
   color: rgb(57, 50, 68);
   font-size: 25px;
 }
 
-a:hover {
+.app-link:hover{
   color: rgb(77, 67, 92);
-}
-
-.active {
-  color: aliceblue;
 }
 
 .disabled-link{

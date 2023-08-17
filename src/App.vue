@@ -1,4 +1,3 @@
-
 <template>
     <nav-bar></nav-bar>
     <div style="display: flex; justify-content: center;">

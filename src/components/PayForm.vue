@@ -79,21 +79,21 @@
                     multiple
                     mandatory
                 >
-                <v-slide-group-item
-                    v-for="person in store.people" 
-                    :key="person.id" 
-                    :value="person.id"
-                    v-slot="{ isSelected, toggle }"
-                >
-                    <v-btn
-                        class="ma-2"
-                        @click="toggle"
-                        :class="isSelected ? 'selected' : 'not-selected'"
-                        rounded
+                    <v-slide-group-item
+                        v-for="person in store.people" 
+                        :key="person.id" 
+                        :value="person.id"
+                        v-slot="{ isSelected, toggle }"
                     >
-                        {{ person.name }}
-                    </v-btn>
-                </v-slide-group-item>
+                        <v-btn
+                            class="ma-2"
+                            @click="toggle"
+                            :class="isSelected ? 'selected' : 'not-selected'"
+                            rounded
+                        >
+                            {{ person.name }}
+                        </v-btn>
+                    </v-slide-group-item>
                 </v-slide-group>
             </v-sheet>
             <br>
@@ -119,8 +119,8 @@ const props = defineProps({
     }
 })
 
-function onClickDeleteBillPosition(billId){ //удаляем позицию счета
-    store.deleteBillPosition(billId)
+function onClickDeleteBillPosition(){ //удаляем позицию счета
+    store.deleteBillPosition(props.billId)
 }
 
 function onChangePersonPays(option){ //меняем значение если выбрали новое имя

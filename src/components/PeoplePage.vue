@@ -36,7 +36,7 @@
             {{ person.name }}
 
             <v-btn 
-                @click="onClickDeletePerson()"
+                @click="onClickDeletePerson(person.id)"
                 class="delete-button"
                 variant="text" 
                 size="small" 
@@ -66,15 +66,15 @@ function onClickAddPerson(){ //добавляем человека
     }
 }
 
-function onClickDeletePerson(ind) { //удаляем человека
-    store.deletePerson(ind);
-};
+function onClickDeletePerson(id) { //удаляем человека
+    store.deletePerson(id);
+}
 
 const input0 = ref(null);
 
 onMounted(() => { //фокус на инпуте
     input0.value.focus()
-});
+})
 
 </script>
 

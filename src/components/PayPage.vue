@@ -24,12 +24,6 @@
             :bill-id="store.getBillIdByIndex(billInd)"
         >
         </pay-form>
-
-
-        
-        <br>
-        <!-- <pre> {{ store.whoPaysWhat }} </pre> -->
-
     </div>
 </template>
 
@@ -49,13 +43,15 @@ function onClickAddBillPosition(){ //добавляем еще один чек
 watch(store.whoPaysWhat, () => { //следим все ли данные в массиве заполнены и блокируем кнопку
     let count = 0;
     for(let i = 0; i < store.whoPaysWhat.length; i++){
-        if(!store.whoPaysWhat[i].name || !store.whoPaysWhat[i].people.length || !store.whoPaysWhat[i].food.length){
+        if(!store.whoPaysWhat[i].name || !store.whoPaysWhat[i].people.length || !store.whoPaysWhat[i].food.length) {
             isDisabled.value = true;
             count++;
         }
     }
 
-    if(count == 0) isDisabled.value = false;
+    if(count === 0) {
+        isDisabled.value = false;
+    }
 })
 
 </script>

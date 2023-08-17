@@ -8,8 +8,7 @@
             class="app-input"
             placeholder="Пиво"
             variant="underlined"
-        >
-        </v-text-field>
+        />
         <v-text-field 
             v-model="price" 
             @keyup.enter="onClickAddPosition()"
@@ -18,9 +17,7 @@
             class="app-input"
             placeholder="500"
             variant="underlined"
-        >
-        </v-text-field>
-
+        />
 
         <v-btn
             @click="onClickAddPosition()"
@@ -30,7 +27,7 @@
             block
             rounded="xl" 
         >
-            <template v-slot:prepend>
+            <template #prepend>
                 <v-icon icon="mdi-plus"></v-icon>
             </template>
             
@@ -40,8 +37,8 @@
         <br>
 
         <div 
-            v-for="(position, i) in store.food" 
-            :key="i"
+            v-for="position in store.food" 
+            :key="position.id"
             class="position"
         >
             <div>
@@ -49,9 +46,8 @@
                 {{ position.price }}
             </div>
             
-
             <v-btn 
-                @click="onClickDeletePosition(i)"
+                @click="onClickDeletePosition(position.id)"
                 class="delete-button"
                 variant="text" 
                 size="small" 
@@ -86,8 +82,8 @@ function onClickAddPosition(){ //добавление человека, смещ
     }    
 }
 
-function onClickDeletePosition(ind){ //удаление человека по индексу
-    store.deletePosition(ind);
+function onClickDeletePosition(id){ //удаление человека по индексу
+    store.deletePosition(id);
 }
 
 const input0 = ref(null);
@@ -95,17 +91,17 @@ const input1 = ref(null);
 
 function focusNext(event) { //фокус на следующем инпуте после нажатия энтер
     input1.value.focus()
-};
+}
 
 onMounted(() => { //фокусировка на первом инпуте
     input0.value.focus()
-});
+})
 
 function NumbersOnly(evt) { //вводим только числа
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-        evt.preventDefault();;
+        evt.preventDefault();
     } 
     else {
         return true;
