@@ -14,16 +14,16 @@ export const useAppStore = defineStore({
         food: [],
         people: []
       }],
-      result: [],
-      reverseResult: []
+      payers: [],
+      debtors: []
     }),
     getters: {
       getBillIdByIndex: (state) => { //айдишник по индексу
         return (billInd) => state.whoPaysWhat[billInd].id;
       }
-    }, 
+    },
     actions: {
-      addPerson(name){ //пушим нового человека
+      addPerson(name) { //пушим нового человека
         this.people.push(
             {
               id: this.idPerson,
@@ -32,7 +32,7 @@ export const useAppStore = defineStore({
           );
         this.idPerson++;
       },
-      deletePerson(id){ //удаляем человека
+      deletePerson(id) { //удаляем человека
         const ind = this.people.findIndex((item) => item.id === id);
         this.people.splice(ind, 1);
       },
@@ -46,11 +46,11 @@ export const useAppStore = defineStore({
 
         this.idFood++;
       },
-      deletePosition(id){ //удаляем позицию
+      deletePosition(id) { //удаляем позицию
         const ind = this.food.findIndex((item) => item.id === id);
         this.food.splice(ind, 1);
       },
-      addBillPosition(){ //добавляем чек
+      addBillPosition() { //добавляем чек
         this.whoPaysWhat.push({
           id: this.idBill,
           name: '',
@@ -59,95 +59,98 @@ export const useAppStore = defineStore({
         });
         this.idBill++;
       },
-      deleteBillPosition(id){ //удаляем чек
+      deleteBillPosition(id) { //удаляем чек
         const ind = this.whoPaysWhat.findIndex((item) => item.id === id);
         this.whoPaysWhat.splice(ind, 1);
       },
-      changeName(data){ //меняем имя плательщика
+      changeName(data) { //меняем имя плательщика
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].name = data.nameId;
         }
       },
-      changeFood(data){ //меняем список продуктов
+      changeFood(data) { //меняем список продуктов
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].food = data.food;
         }
       },
-      changePeople(data){ //меняем людей, за которых платили
+      changePeople(data) { //меняем людей, за которых платили
         const index = this.whoPaysWhat.findIndex((item) => item.id === data.id);
 
         if (index >= 0) {
           this.whoPaysWhat[index].people = data.people;
         }
       },
-      getPersonNameById(personId){ //получаем имя плательщика по айди
+      getPersonNameById(personId) { //получаем имя плательщика по айди
         const personInd = this.people.findIndex((item) => item.id === personId);
         return this.people[personInd].name;
       },
-      payers(){ //считаем кому кто сколько должен //payers
-        this.result = [];
-        
-        for(let i = 0; i < this.whoPaysWhat.length; i++){ //бегаем по массиву счета
+      payersFunc() { //считаем кому кто сколько должен //payers
+        this.payers = [];
+
+        for(let i = 0; i < this.whoPaysWhat.length; i++) { //бегаем по массиву счета
 
           //подсчитываем общую стоимость чека
           const sum = this.whoPaysWhat[i].food.reduce((total, foodItem, index, array) => {
-            let foodInd = this.food.findIndex(food => food.id == foodItem);
+            let foodInd = this.food.findIndex(food => food.id === foodItem);
             return total += parseInt(this.food[foodInd].price);
           }, 0)
 
-          //кол-во людей, которые ели 
+          //кол-во людей, которые ели
           const people = (this.whoPaysWhat[i].people).length;
-          
+
           let result = Math.round(sum / people); //сколько вышло на одного человека
 
           //теперь в результат записываем кто платил и список должников с тем сколько они должны плательщику
 
-          let indName = this.result.findIndex(item => item.name == this.whoPaysWhat[i].name); //проверка платил ли уже этот человек
+          let indName = this.payers.findIndex(item => item.name === this.whoPaysWhat[i].name); //проверка платил ли уже этот человек
 
-          if(indName == -1){
-            this.result.push({ //если не платил то добавляем его 
+          if(indName === -1) {
+            this.payers.push({ //если не платил то добавляем его
               name: this.whoPaysWhat[i].name,
               debt: []
             })
-            
-            indName = this.result.findIndex(item => item.name == this.whoPaysWhat[i].name);
+
+            indName = this.payers.findIndex(item => item.name === this.whoPaysWhat[i].name);
           }
 
           this.whoPaysWhat[i].people.forEach(person => { //проверяем не платил ли этот человек сам за себя, если да, то не считаем его в должники самому себе
-            if(this.result[indName].name !== person){
-              const indNameDebt = this.result[indName].debt.findIndex(item => item.person == person);
+            if(this.payers[indName].name !== person) {
+              const indNameDebt = this.payers[indName].debt.findIndex(item => item.person === person);
               //проверяем не должен ли уже человек плательщику какую-то сумму
               //если должен, то суммируем с тем, что он ему должен был
-              const duty = indNameDebt !== -1 ? this.result[indName].debt[indNameDebt].duty : 0;
+              const duty = indNameDebt !== -1 ? this.payers[indName].debt[indNameDebt].duty : 0;
               result += duty;
 
-              if(indNameDebt !== -1) this.result[indName].debt[indNameDebt].duty = result;
-              else this.result[indName].debt.push({ //если не должен, то просто пушим его и его долг
+              if(indNameDebt !== -1) {
+                this.payers[indName].debt[indNameDebt].duty = result;
+              } else {
+                this.payers[indName].debt.push({ //если не должен, то просто пушим его и его долг
                   person,
                   duty: result
-              });
+                });
+              }
             }
           })
         }
       },
-      debtors(){ //переписываем массив результата, чтоб узнать кто кому сколько должен
-        this.reverseResult = [];
-  
-        this.result.forEach((payer) => { // бегаем по массиву
+      debtorsFunc() { //переписываем массив результата, чтоб узнать кто кому сколько должен
+        this.debtors = [];
+
+        this.payers.forEach((payer) => { // бегаем по массиву
           payer.debt.forEach((debt) => { //хватаем всех должников
-            const existingPerson = this.reverseResult.find((p) => p.name === debt.person); //не добавляли ли мы его уже 
-            
+            const existingPerson = this.debtors.find((p) => p.name === debt.person); //не добавляли ли мы его уже
+
             if (existingPerson) { //если добавляли, то пихаем кому он еще должен
               existingPerson.debt.push({
                 person: payer.name,
                 duty: debt.duty
               });
             } else {
-              this.reverseResult.push({
+              this.debtors.push({
                 name: debt.person,
                 debt: [{
                   person: payer.name,
@@ -159,59 +162,32 @@ export const useAppStore = defineStore({
         });
 
       },
-      resultHard(){ //result
-        this.payers();
-        this.debtors();
+      resultHard() { //result
+        this.payersFunc();
+        this.debtorsFunc();
 
-        this.result.forEach((payer) => {
-          this.reverseResult.forEach((debtor) => {
-            if(payer.name == debtor.name) {
-              payer.debt.forEach((payerDebt) => {
-                debtor.debt.forEach((debtorDebt) => {
-                  if(payerDebt.person == debtorDebt.person) {
-                    if(payerDebt.duty >= debtorDebt.duty) {
-                      payerDebt.duty = payerDebt.duty - debtorDebt.duty;
+        // у нас есть два массива, в одном - плательщики и список тех, кто им должен, во втором - должники и список тех, кому они должны
+        // если  один и тот же человек является и должником и плательщиком, значит возможно есть человек, которому он должен и который должен ему
+        // если мы находим такого человека, то пересчитываем кто кому сколько должен у обоих людей
 
-                      const nameId = this.result.findIndex(item => item.name == debtorDebt.person);
-                      const personId = this.result[nameId].debt.findIndex(item => item.person == payer.name);
-
-                      this.result[nameId].debt[personId].duty = 0;
-
-                      
-                      const name2 = this.reverseResult.findIndex(item => item.name == debtorDebt.person);
-                      const person2 = this.reverseResult[name2].debt.findIndex(item => item.person == payer.name);
-
-                      this.reverseResult[name2].debt[person2].duty = this.reverseResult[name2].debt[person2].duty - debtorDebt.duty;
-
-                      debtorDebt.duty = 0;
-                    }
-                  }
-                })
-              })
-            }
-          })
-        })
-
-
-
-        this.result.forEach((payer) => {
-          const debtor = this.reverseResult.find((p) => p.name === payer.name);
-          if (debtor) {
-            payer.debt.forEach((payerDebt) => {
+        this.payers.forEach((payer) => { //для каждого плательщика
+          const debtor = this.debtors.find((p) => p.name === payer.name); //сопоставляем ему должника с таким же именем (айдишником)
+          if (debtor) { //если такие пары нашлись
+            payer.debt.forEach((payerDebt) => { //то теперь делаем то же самое, и ищем совпадения по списку людей которым должны/кто должен
               const debtorDebt = debtor.debt.find((dd) => dd.person === payerDebt.person);
 
-              if (debtorDebt) {
-                if (payerDebt.duty >= debtorDebt.duty) {
-                  payerDebt.duty -= debtorDebt.duty;
-      
-                  const nameId = this.result.findIndex((item) => item.name === debtorDebt.person);
-                  const personId = this.result[nameId].debt.findIndex((item) => item.person === payer.name);
-                  this.result[nameId].debt[personId].duty = 0;
-      
-                  const name2 = this.reverseResult.findIndex((item) => item.name === debtorDebt.person);
-                  const person2 = this.reverseResult[name2].debt.findIndex((item) => item.person === payer.name);
-      
-                  this.reverseResult[name2].debt[person2].duty -= debtorDebt.duty;
+              if (debtorDebt) { //если такая пара нашлась
+                if (payerDebt.duty >= debtorDebt.duty) { //смотрим чтобы одна сумма была больше другой
+                  payerDebt.duty -= debtorDebt.duty; //вычитаем из большего меньшее
+
+                  const nameId = this.payers.findIndex((item) => item.name === debtorDebt.person); //ищем человека в списке плательщиков
+                  const personId = this.payers[nameId].debt.findIndex((item) => item.person === payer.name);
+                  this.payers[nameId].debt[personId].duty = 0;
+
+                  const name2 = this.debtors.findIndex((item) => item.name === debtorDebt.person); //ищем человека в списке должников
+                  const person2 = this.debtors[name2].debt.findIndex((item) => item.person === payer.name);
+
+                  this.debtors[name2].debt[person2].duty -= debtorDebt.duty;
                   debtorDebt.duty = 0;
                 }
 

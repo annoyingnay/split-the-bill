@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <v-btn 
             @click="onClickAddBillPosition"
             class="app-button" 

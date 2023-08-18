@@ -3,17 +3,17 @@
 }
 
 .app-input{
-    color:aliceblue; 
+    color:aliceblue;
 }
 
 .app-button{
     margin: 10px 10px 10px 0px;
-    color:aliceblue !important; 
+    color:aliceblue !important;
     background-color: rgb(100, 88, 117) !important;
 }
 
 .delete-button{
-    background-color: rgb(216, 35, 80) !important; 
+    background-color: rgb(216, 35, 80) !important;
     color: aliceblue !important;
 }
 
@@ -31,14 +31,14 @@
 }
 
 .selected{
-    color:aliceblue !important; 
-    background-color: rgb(79, 69, 94) !important; 
+    color:aliceblue !important;
+    background-color: rgb(79, 69, 94) !important;
     box-shadow: none !important;
 }
 
 .not-selected{
-    color:aliceblue !important; 
-    background-color: rgb(100, 88, 117) !important; 
+    color:aliceblue !important;
+    background-color: rgb(100, 88, 117) !important;
     box-shadow: none !important;
 }
 
@@ -70,7 +70,7 @@
 .bill-position{
     margin: 10px 0px 10px 0px;
     width: 600px;
-} 
+}
 
 .slider{
     background-color: rgb(100, 88, 117);
@@ -84,13 +84,40 @@
     font-size: 20px;
 }
 
-.app-card{
-    background-color: rgb(100, 88, 117) !important; 
-    color: aliceblue !important; 
+.app-card {
+    background-color: rgb(100, 88, 117) !important;
+    color: aliceblue !important;
     border-radius: 20px !important;
 }
 
-.card-button{
-    color:aliceblue; 
+.card-button {
+    color:aliceblue;
     background-color: rgb(100, 88, 117);
+}
+
+.v-toolbar__content {
+justify-content: center;
+background-color: rgb(99, 87, 117);
+}
+
+.toolbar-item{
+margin: 0px 20px 0px 20px;
+}
+
+.toolbar-item .active {
+  color: aliceblue;
+}
+
+.app-link {
+  color: rgb(57, 50, 68);
+  font-size: 25px;
+}
+
+.app-link:hover {
+  color: rgb(77, 67, 92);
+}
+
+.disabled-link {
+  color: rgb(57, 50, 68);
+  font-size: 25px;
 }

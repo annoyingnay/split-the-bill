@@ -11,7 +11,7 @@
             </p>
         </div>
 
-        <div 
+        <div
             v-if="isOpen"
             class="options"
         >
@@ -20,7 +20,7 @@
                 :key="option.id"
                 @click="onClickSelectOption(option)"
                 class="text-button"
-            >   
+            >
                 {{ option.name }}
             </p>
         </div>
@@ -66,7 +66,7 @@ function onClickSelectOption(option){
     border: solid 1px rgb(100, 88, 117);
     border-radius: 20px;
     background-color: rgb(100, 88, 117);
-    color: aliceblue;   
+    color: aliceblue;
 }
 
 .title:hover{

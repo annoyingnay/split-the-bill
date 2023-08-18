@@ -1,8 +1,8 @@
 <template>
     <div class="people-page">
 
-        <v-text-field 
-            v-model="name" 
+        <v-text-field
+            v-model="name"
             @keyup.enter="onClickAddPerson()"
             ref="input0"
             class="app-input"
@@ -10,36 +10,36 @@
             variant="underlined"
         >
         </v-text-field>
-        
+
         <v-btn
             @click="onClickAddPerson()"
             :disabled="!name"
             class="app-button"
             variant="tonal"
             block
-            rounded="xl" 
-            
+            rounded="xl"
+
         >
             <template v-slot:prepend>
                 <v-icon icon="mdi-plus"></v-icon>
-            </template>   
-            Добавить человека   
+            </template>
+            Добавить человека
         </v-btn>
 
         <br>
 
-        <div 
-            v-for="person in store.people" 
-            :key="person.id" 
+        <div
+            v-for="person in store.people"
+            :key="person.id"
             class="position"
         >
             {{ person.name }}
 
-            <v-btn 
+            <v-btn
                 @click="onClickDeletePerson(person.id)"
                 class="delete-button"
-                variant="text" 
-                size="small" 
+                variant="text"
+                size="small"
                 rounded="xl"
             >
                 <v-icon icon="mdi-close"></v-icon>

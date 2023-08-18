@@ -5,12 +5,12 @@
       width="500"
     >
       <template v-slot:activator="{ props }">
-        <v-btn 
+        <v-btn
           @click="store.resultHard()"
           :disabled="isDisabled"
           v-bind="props"
           class="app-button"
-          variant="tonal" 
+          variant="tonal"
           block rounded="xl"
         >
           кто кому что должен
@@ -36,16 +36,16 @@
         </v-btn>
 
         <v-card-text v-if="btn == 'whom'">
-          <div 
-            v-for="(bill, i) in store.result"
+          <div
+            v-for="(bill, i) in store.payers"
             :key="i"
             class="result-position"
-          >   
+          >
             <div class="payer">
               Кому должны: {{ store.getPersonNameById(bill.name) }}
             </div>
-            
-            <div 
+
+            <div
               v-for="(debt, ind) in bill.debt"
               :key="ind"
               class="debt"
@@ -55,18 +55,18 @@
             </div>
           </div>
         </v-card-text>
-        
+
         <v-card-text v-if="btn == 'who'">
-          <div 
-            v-for="(bill, i) in store.reverseResult"
+          <div
+            v-for="(bill, i) in store.debtors"
             :key="i"
             class="result-position"
-          >   
+          >
             <div class="payer">
               Кто должен: {{ store.getPersonNameById(bill.name) }}
             </div>
-            
-            <div 
+
+            <div
               v-for="(debt, ind) in bill.debt"
               :key="ind"
               class="debt"
@@ -78,21 +78,20 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn 
+          <v-btn
             @click="isDialogOpen = false"
-            variant="tonal" 
-            rounded="xl" 
-            block 
+            variant="tonal"
+            rounded="xl"
+            block
           >
             Понял принял заплатил
           </v-btn>
         </v-card-actions>
-
       </v-card>
     </v-dialog>
   </div>
 </template>
-  
+
 <script setup>
   import { ref } from 'vue';
   import { useAppStore } from '../store/index';

@@ -1,16 +1,16 @@
 <template>
     <div class="people-page">
 
-        <v-text-field 
-            v-model="title" 
-            @keydown.enter="focusNext" 
+        <v-text-field
+            v-model="title"
+            @keydown.enter="focusNext"
             ref="input0"
             class="app-input"
             placeholder="Пиво"
             variant="underlined"
         />
-        <v-text-field 
-            v-model="price" 
+        <v-text-field
+            v-model="price"
             @keyup.enter="onClickAddPosition()"
             @keypress="NumbersOnly"
             ref="input1"
@@ -25,19 +25,19 @@
             class="app-button"
             variant="tonal"
             block
-            rounded="xl" 
+            rounded="xl"
         >
             <template #prepend>
                 <v-icon icon="mdi-plus"></v-icon>
             </template>
-            
-            Добавить позицию из счета   
+
+            Добавить позицию из счета
         </v-btn>
 
         <br>
 
-        <div 
-            v-for="position in store.food" 
+        <div
+            v-for="position in store.food"
             :key="position.id"
             class="position"
         >
@@ -45,13 +45,13 @@
                 {{ position.title }}
                 {{ position.price }}
             </div>
-            
-            <v-btn 
+
+            <v-btn
                 @click="onClickDeletePosition(position.id)"
                 class="delete-button"
-                variant="text" 
-                size="small" 
-                rounded="xl" 
+                variant="text"
+                size="small"
+                rounded="xl"
             >
                 <v-icon icon="mdi-close"></v-icon>
             </v-btn>
@@ -79,7 +79,7 @@ function onClickAddPosition(){ //добавление человека, смещ
         title.value = '';
         price.value = '';
         input0.value.focus();
-    }    
+    }
 }
 
 function onClickDeletePosition(id){ //удаление человека по индексу
@@ -102,7 +102,7 @@ function NumbersOnly(evt) { //вводим только числа
     var charCode = (evt.which) ? evt.which : evt.keyCode;
     if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
         evt.preventDefault();
-    } 
+    }
     else {
         return true;
     }
